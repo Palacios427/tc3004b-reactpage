@@ -3,11 +3,10 @@ import React from "react";
 const Item = ({ item }) => {
     return(
     <div>
-        <ol>
+        <ul>
             <li>{item.name}</li>
-            <li>{item.name}</li>
-            <li>{item.name}</li>
-        </ol>
+            <li>{item.price}</li>
+        </ul>
     </div>
     )
 };

@@ -1,11 +1,11 @@
 import React from "react";
-import Item from "./item";
+import Item from "./Item";
 
 const List = ({ items }) => {
     return ( 
     <>
         {items.map((i)=>(
-            <Item key = {i.price} item={i}/>
+            <Item item={i} key={i.id}/>
         ))}
     </>
     );

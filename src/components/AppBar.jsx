@@ -14,8 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from 'react-router-dom';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Items', 'Add Items'];
+const settings = ['Logout'];
 
 function ResponsiveAppBar({logout}) {
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ function ResponsiveAppBar({logout}) {
 
   const handleCloseUserMenu = (e) => {
     setAnchorElUser(null);
-    if (e.target.textContent === settings[3]){
+    if (e.target.textContent === settings[0]){
       logout();
       navigate("/");
     }

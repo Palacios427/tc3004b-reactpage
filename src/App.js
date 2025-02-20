@@ -9,7 +9,7 @@ import Add from './components/Add';
 import ResponsiveAppBar from './components/AppBar';
 import Login from './pages/Login';
 import Home from './pages/Home';
-import NavLinks from './pages/NavLinks';
+
 
 function App() {
   const [items, setItems] = useState([
@@ -60,7 +60,7 @@ function App() {
         <Routes>
 
             <Route path="/" element={<Login login={login}/>} /> 
-            <Route path="/navlinks" element={<NavLinks /> }/>
+            <Route path="/home" element={<Home />} />
             <Route path="/add" element={<Add add={add}/> }/>
             <Route path="/items" element={<List items={items} ondelete={del}/> }/>
             <Route path="/home" element={<Home />} />

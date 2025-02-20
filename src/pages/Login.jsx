@@ -18,7 +18,7 @@ const Login = ({login}) => {
         if(isLogin) {
             setUsername("");
             setPassword("");
-            navigate("/navlinks")
+            navigate("/home")
         } else {
             alert("el login fallo");
         }

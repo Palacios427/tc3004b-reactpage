@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import NavLinks from "../pages/NavLinks";
 
 const Add = ({add}) => {
     const navigate = useNavigate();
@@ -22,6 +23,8 @@ const Add = ({add}) => {
     
     return (
         <form onSubmit={onsubmit}>
+            <NavLinks />
+
             <input onChange={(e) => setName(e.target.value)}
             value={name}
             type="text"

@@ -4,9 +4,12 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Boton from './components/Boton';
-import List from './components/List';
+import List from './pages/List';
 import Add from './components/Add';
 import ResponsiveAppBar from './components/AppBar';
+import Login from './pages/Login';
+import Home from './pages/Home';
+import NavLinks from './pages/NavLinks';
 
 function App() {
   const [items, setItems] = useState([
@@ -16,6 +19,8 @@ function App() {
   ]);
 
   let [count, setCount] = useState(0);
+
+  const [isLogin, setIsLogin] = useState(false);
 
   const sum = () => {
     setCount(count + 1);
@@ -36,18 +41,29 @@ function App() {
     setItems(items.filter((item) => item.id !== id));
   };
 
-  const nombre = "Jorge Palacios"
-  const elemento = <h1>Hello, {nombre}</h1>
+  const login = (user) => {
+    if (user.username === "jorge" && user.password === "1234") {
+      setIsLogin(true);
+    }
+    return isLogin;
+  };
+
+  const logout = () => {
+    setIsLogin(false);
+  }
 
   return (
     <div>
       <BrowserRouter>
-        <ResponsiveAppBar />
+        {isLogin && <ResponsiveAppBar logout={logout}/>}
         <Header />
         <Routes>
 
+            <Route path="/" element={<Login login={login}/>} /> 
+            <Route path="/navlinks" element={<NavLinks /> }/>
             <Route path="/add" element={<Add add={add}/> }/>
             <Route path="/items" element={<List items={items} ondelete={del}/> }/>
+            <Route path="/home" element={<Home />} />
 
         </Routes>
         <Footer />

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Add = ({add}) => {
+    const navigate = useNavigate();
+
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     
@@ -14,6 +17,7 @@ const Add = ({add}) => {
         add({name:name, price: price});
         setName("");
         setPrice("");
+        navigate("/items")
     };
     
     return (

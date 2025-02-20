@@ -1,10 +1,12 @@
 import './App.css';
 import {useState} from "react";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Boton from './components/Boton';
 import List from './components/List';
 import Add from './components/Add';
+import ResponsiveAppBar from './components/AppBar';
 
 function App() {
   const [items, setItems] = useState([
@@ -38,15 +40,23 @@ function App() {
   const elemento = <h1>Hello, {nombre}</h1>
 
   return (
-    <div className="App">
-      <Header />
-      {count}
+    <div>
+      <BrowserRouter>
+        <ResponsiveAppBar />
+        <Header />
+        <Routes>
+
+            <Route path="/add" element={<Add add={add}/> }/>
+            <Route path="/items" element={<List items={items} ondelete={del}/> }/>
+
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+
+      {/* {count}
       <Boton nombre={"suma"} click={sum}/>
       <Boton nombre={"resta"} click={resta}/>
-      <Boton nombre={"mensaje"} click={() => alert("hola")}/>
-      <Add add={add}/>
-      <List items={items} ondelete={del}/>
-      <Footer />
+      <Boton nombre={"mensaje"} click={() => alert("hola")}/> */}
     </div>
   );
 }

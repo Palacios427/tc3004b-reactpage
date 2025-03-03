@@ -6,7 +6,7 @@ const Home = () => {
     <div>
       <h1>Welcome to my React page!</h1>
       <p>Yokoso, watashi no soul society.</p>
-      <img src={yokoso} height={300} width={300}/>
+      <img src={yokoso} height={300} width={300} alt="Yokoso.jpg"/>
     </div>
   );
 };

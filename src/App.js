@@ -8,6 +8,8 @@ import Add from './components/Add';
 import ResponsiveAppBar from './components/AppBar';
 import Login from './pages/Login';
 import Home from './pages/Home';
+import Hash from './pages/Hash';
+import Register from './pages/Register';
 
 
 function App() {
@@ -82,6 +84,8 @@ function App() {
             <Route path="/add" element={<Add add={add}/> }/>
             <Route path="/items" element={<List items={items} ondelete={del}/> }/>
             <Route path="/home" element={<Home />} />
+            <Route path="/hash" element={<Hash />} />
+            <Route path="/register" element={<Register />} />
 
         </Routes>
         <Footer />

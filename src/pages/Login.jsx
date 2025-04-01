@@ -49,6 +49,9 @@ const Login = ({login}) => {
 
                     <Button onClick={onSubmit}>LOGIN</Button>
 
+                    <Button onClick={() => {navigate("/register")}}>Register</Button>
+
+
                 </Box>
             </div>
         </form>

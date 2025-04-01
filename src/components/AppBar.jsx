@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from 'react-router-dom';
 
-const pages = ['Items', 'Add Items'];
+const pages = ['Items', 'Add Items', 'Hashing'];
 const settings = ['Logout'];
 
 function ResponsiveAppBar({logout}) {
@@ -35,6 +35,8 @@ function ResponsiveAppBar({logout}) {
       navigate("/items");
     } else if (e.target.textContent === pages[1]) {
       navigate("/add"); 
+    } else if (e.target.textContent === pages[2]) {
+      navigate("/hash"); 
     }
   };
 

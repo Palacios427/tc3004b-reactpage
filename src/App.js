@@ -24,8 +24,15 @@ function App() {
     }
   }, [isLogin]);
 
+
   const getItems = async () => {
-    const result = await fetch("http://localhost:5000/items/");
+    const token = localStorage.getItem("token")
+
+    const result = await fetch("http://localhost:5000/items/", {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    });
     const data = await result.json();
     setItems(data);
   };
@@ -41,10 +48,15 @@ function App() {
   // };
 
   const add = async (item) => {
+    const token = localStorage.getItem("token");
+
     // item.id = items.length + 1;
     const result = await fetch ("http://localhost:5000/items/", {
       method: "POST", 
-      headers:{"Content-Type":"application/json"},
+      headers:{
+        "Authorization": `Bearer ${token}`,
+        "Content-Type":"application/json",
+      },
       body: JSON.stringify(item),
       });
       const data = await result.json();
@@ -52,7 +64,15 @@ function App() {
   };
 
   const del = async (id) => {
-    await fetch("http://localhost:5000/items/" + id, { method: "DELETE" });
+    const token = localStorage.getItem("token")
+
+    await fetch(`http://localhost:5000/items/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+
     setItems(items.filter((item) => item.id !== id));
   };
 
@@ -63,13 +83,18 @@ function App() {
     });
 
     const data = await result.json();
-    
-    setIsLogin(data.isLogin);
+
+    if (data.token) {
+      localStorage.setItem('token', data.token);
+      setIsLogin(data.isLogin);
+    }
+
     return data.isLogin;
   };
 
   const logout = () => {
     setIsLogin(false);
+    localStorage.removeItem("token");
   }
 
   return (

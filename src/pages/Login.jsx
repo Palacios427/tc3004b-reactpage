@@ -41,8 +41,8 @@ const Login = ({login}) => {
                     />
 
                     <TextField
-                        type={"password"} 
-                        label={"password"} 
+                        type={"password"}
+                        label={"password"}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />

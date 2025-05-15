@@ -15,6 +15,8 @@ import Register from './pages/Register';
 function App() {
   const [items, setItems] = useState([]);
   
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
   // let [count, setCount] = useState(0);
   
   const [isLogin, setIsLogin] = useState(false);
@@ -28,7 +30,7 @@ function App() {
   const getItems = async () => {
     const token = localStorage.getItem("token")
 
-    const result = await fetch("http://localhost:5000/items/", {
+    const result = await fetch(API_URL + "/items/", {
       headers: {
         "Authorization": `Bearer ${token}`,
       },
@@ -51,7 +53,7 @@ function App() {
     const token = localStorage.getItem("token");
 
     // item.id = items.length + 1;
-    const result = await fetch ("http://localhost:5000/items/", {
+    const result = await fetch (API_URL + "/items/", {
       method: "POST", 
       headers:{
         "Authorization": `Bearer ${token}`,
@@ -66,7 +68,7 @@ function App() {
   const del = async (id) => {
     const token = localStorage.getItem("token")
 
-    await fetch(`http://localhost:5000/items/${id}`, {
+    await fetch(API_URL + `/items/${id}`, {
       method: "DELETE",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -77,7 +79,7 @@ function App() {
   };
 
   const login = async (user) => {
-    const result = await fetch ("http://localhost:5000/login/", {method: "POST", 
+    const result = await fetch (API_URL + "/login/", {method: "POST", 
     headers:{"Content-Type":"application/json"},
     body: JSON.stringify(user),
     });

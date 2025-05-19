@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
 const HashViewer = () => {
+  const API_URL = process.env.REACT_APP_API_URL;
+
   const [text1, setText1] = useState("");
   const [hash1, setHash1] = useState("");
   const [text2, setText2] = useState("");
@@ -8,7 +10,7 @@ const HashViewer = () => {
 
   const handleHash = async (text, setHash) => {
     try {
-      const res = await fetch("http://localhost:5000/api/hash", {
+      const res = await fetch(API_URL + "/api/hash", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

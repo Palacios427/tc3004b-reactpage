@@ -11,6 +11,11 @@ import Home from './pages/Home';
 import Hash from './pages/Hash';
 import Register from './pages/Register';
 import ItemInfo from './components/ItemInfo';
+import useCount from './hooks/useCount';
+import useAuth from './hooks/useAuth';
+import useItems from './hooks/useItems';
+import { Button } from '@mui/material';
+import LifeCycle from './pages/LifeCycle';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -20,100 +25,38 @@ const PrivateRoute = ({ isLogin, children }) => {
 };
 
 // ✅ Wrapper que hace login y redirecciona
-const LoginWrapper = ({ setIsLogin }) => {
+const LoginWrapper = ({ login }) => {
   const navigate = useNavigate();
 
-  const login = async (user) => {
-    const result = await fetch(API_URL + "/login/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(user),
-    });
-
-    const contentType = result.headers.get("content-type");
-    const text = await result.text();
-
-    if (!contentType || !contentType.includes("application/json")) {
-      console.error("Respuesta no es JSON válida:", text);
-      throw new Error("La respuesta no es JSON.");
+  const handleLogin = async (user) => {
+    const data = await login(user);
+    if (data.isLogin) {
+      navigate("/home");
     }
-
-    const data = JSON.parse(text);
-
-    if (data.token) {
-      localStorage.setItem("token", data.token);
-      setIsLogin(data.isLogin);
-      navigate("/home"); // ✅ redirige después de login exitoso
-    }
-
     return data.isLogin;
   };
 
-  return <Login login={login} />;
+  return <Login login={handleLogin} />;
 };
 
 function App() {
-  const [items, setItems] = useState([]);
-  const [isLogin, setIsLogin] = useState(false);
+  const [show, setShow] = useState(false);
 
-  // ✅ Persistencia de sesión
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLogin(true);
-    }
-  }, []);
+  // Hook de autenticación
+  const { isLogin, token, login, logout } = useAuth();
 
+  // Componente Contador Simple con useCount usando hooks
+  const { count, sum, resta } = useCount();
+
+  // Componente Items con useItems usando hooks
+  const { items, getItems, addItem, delItem } = useItems(token);
+
+  // Solo obtener items cuando hay token y no hay items
   useEffect(() => {
-    if (isLogin) {
+    if (token && items.length === 0) {
       getItems();
     }
-  }, [isLogin]);
-
-  const getItems = async () => {
-    const token = localStorage.getItem("token");
-
-    const result = await fetch(API_URL + "/items/", {
-      headers: {
-        "Authorization": `Bearer ${token}`,
-      },
-    });
-    const data = await result.json();
-    setItems(data);
-  };
-
-  const add = async (item) => {
-    const token = localStorage.getItem("token");
-
-    const result = await fetch(API_URL + "/items/", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(item),
-    });
-    const data = await result.json();
-    setItems([...items, data.item]);
-  };
-
-  const del = async (id) => {
-    const token = localStorage.getItem("token");
-
-    await fetch(API_URL + `/items/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-      },
-    });
-
-    setItems(items.filter((item) => item.id !== id));
-  };
-
-  const logout = () => {
-    setIsLogin(false);
-    localStorage.removeItem("token");
-  };
+  }, [token, items.length, getItems]);
 
   return (
     <div>
@@ -121,8 +64,7 @@ function App() {
         {isLogin && <ResponsiveAppBar logout={logout} />}
         <Header />
         <Routes>
-          <Route path="/" element={<LoginWrapper setIsLogin={setIsLogin} />} />
-
+          <Route path="/" element={<LoginWrapper login={login} />} />
           <Route
             path="/home"
             element={
@@ -135,7 +77,7 @@ function App() {
             path="/add"
             element={
               <PrivateRoute isLogin={isLogin}>
-                <Add add={add} />
+                <Add add={addItem} />
               </PrivateRoute>
             }
           />
@@ -143,7 +85,7 @@ function App() {
             path="/items"
             element={
               <PrivateRoute isLogin={isLogin}>
-                <List items={items} ondelete={del} />
+                <List items={items} ondelete={delItem} />
               </PrivateRoute>
             }
           />
@@ -160,6 +102,8 @@ function App() {
         </Routes>
         <Footer />
       </BrowserRouter>
+      <button onClick={() => setShow(!show)}>{show ? "Hide":"Show"}</button>
+      {show && <LifeCycle />}
     </div>
   );
 }

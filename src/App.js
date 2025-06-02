@@ -102,6 +102,7 @@ function App() {
         </Routes>
         <Footer />
       </BrowserRouter>
+      <h2>LifeCycle</h2>
       <button onClick={() => setShow(!show)}>{show ? "Hide":"Show"}</button>
       {show && <LifeCycle />}
     </div>

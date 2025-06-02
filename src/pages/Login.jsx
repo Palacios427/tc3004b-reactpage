@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate  } from "react-router-dom";
 
@@ -51,6 +51,11 @@ const Login = ({login}) => {
 
                     <Button onClick={() => {navigate("/register")}}>Register</Button>
 
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 2, textAlign: 'center' }}>
+                        Use test credentials:<br/>
+                        Username: test<br/>
+                        Password: test
+                    </Typography>
 
                 </Box>
             </div>

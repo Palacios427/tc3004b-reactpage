@@ -3,13 +3,18 @@ import { useState, useEffect } from "react";
 const API_URL = process.env.REACT_APP_API_URL;
 
 const useAuth = () => {
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState(() => {
+        // Initialize isLogin based on token presence in localStorage
+        return !!localStorage.getItem("token");
+    });
     const [token, setToken] = useState(localStorage.getItem("token"));
 
     // ✅ Persistencia de sesión
     useEffect(() => {
         if (token) {
             setIsLogin(true);
+        } else {
+            setIsLogin(false);
         }
     }, [token]);
 
@@ -33,7 +38,7 @@ const useAuth = () => {
         if (data.token) {
             localStorage.setItem("token", data.token);
             setToken(data.token);
-            setIsLogin(data.isLogin);
+            setIsLogin(true);
         }
 
         return data;
